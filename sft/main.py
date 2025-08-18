@@ -6,8 +6,8 @@ from .model_util import (
 )
 
 def main():
-    train_data_path = "./data_v3/data_v2.csv"
-    eval_data_path = "./data_v3/eval_data_v2.csv"
+    train_data_path = "./heavy_sft_processed_16_8.csv"
+    eval_data_path = "./eval.csv"
 
     # train_data_path = "./data_v2/data_v1.csv"
     # eval_data_path = "./data_v2/eval_data_v1.csv"
@@ -66,18 +66,21 @@ def main():
     trainer.train()
 
     print("Training completed...")
-
+    model.save_pretrained("heavy_model_16_8")
+    tokenizer.save_pretrained("heavy_model_16_8")
+    model.save_pretrained_merged("merged_heavy_model_16_8", tokenizer, save_method = "merged_16bit",)
     model.save_pretrained_gguf(
-        "out_try01", 
+        "heavy_model_16_8", 
         tokenizer, 
-        quantization_method = ["q4_k_m", "q8_0"]
+        quantization_type = ["q4_k_m","q8_0", "q6_k"]
     )
     
-    # model.push_to_hub(
-    #     "Diwanshuydv/qwen2.5-0.5B-coder-Instruct-sft-final-test", # Change hf to your username!
-    #     tokenizer,
-    #     token = "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", # Get a token at https://huggingface.co/settings/tokens
-    # )
+    model.push_to_hub_gguf(
+         "Diwanshuydv/qwen2.5-3B-coder-Instruct-heavy_16_8", # Change hf to your username!
+         tokenizer,
+         quantization_type = ["q4_k_m","q4_0", "q6_k","q8_0"],
+         token = "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", # Get a token at https://huggingface.co/settings/tokens
+     )
 
 if __name__=="__main__":
     main()

@@ -3,7 +3,6 @@ SYSTEM_PROMPT_V3 = """You are a MongoDB query parsing assistant. Your task is to
 You will receive:
 - schema: <MongoDB schema fields and their descriptions>
 - natural_language_query: <A plain English query describing the  intent of user.>
-- additional_info: <optional context or constraints>
 
 Your job is to extract the relevant conditions and represent them in the following parsed format:
 - Each filter is on a separate line
@@ -15,9 +14,6 @@ Your job is to extract the relevant conditions and represent them in the followi
     $lte   - less than or equal to  
     $in    - inclusion list (comma-separated values)  
     $regex - regular expression for matching  
-- Optionally, include:
-    sort = <field_name> (ascending or descending)
-    limit = <number>
 
 Follow the schema strictly. Do not hallucinate field names. Output only the parsed query format with no explanations.
 """
@@ -25,8 +21,9 @@ Follow the schema strictly. Do not hallucinate field names. Output only the pars
 MODEL_PROMPT_V3 = """schema:
 {schema}
 
+Always use ISO 8601 format (`YYYY-MM-DDTHH:MM:SSZ`) for timestamps.
+For queries involving confidence (e.g., "score greater than 70 percent"), use `score` with operators like `$gt`, `$lt` (e.g., `"$gt": 0.7`).
+    Today is {datetime} use only when the query explicitly mentions to use the current date and time like using words today, last week. Never include or infer the date unless strictly mentioned in the query.
 natural_language_query: {natural_language_query}
-
-additional_info: {additional_info}
 
 parsed_mongo_query:"""

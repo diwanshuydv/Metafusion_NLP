@@ -1,9 +1,9 @@
-from dataset_util import get_data
-from trainer_utils import get_trainer
+from .dataset_util import get_data
+from .trainer_utils import get_trainer
 from ray.tune.search.optuna import OptunaSearch
 import torch
 import gc
-from model_util import (
+from .model_util import (
     load_model,
     get_param_details
 )
@@ -25,23 +25,25 @@ def file_name(config):
 
 def train_model(config):
 
-    train_data_path = "/home/raid/metafusion/WARPxMetafusion/data_v2/data_v1.csv"
-    eval_data_path = "/home/raid/metafusion/WARPxMetafusion/data_v2/eval_data_v1.csv"
-    root_dir_path = "/home/raid/metafusion/WARPxMetafusion/outputs"
+    train_data_path = "/home/raid/Diwanshu/Metafusion_NLP/train_ready_data_v3.csv"
+    eval_data_path = "/home/raid/Diwanshu/Metafusion_NLP/eval_ready_data_v3.csv"
+    root_dir_path = "/home/raid/Diwanshu/Metafusion_NLP/outputs"
 
     output_dir_name = file_name(config)
     output_path = os.path.join(root_dir_path, output_dir_name)
     config["output_dir"] = output_path
 
     model, tokenizer = load_model(config=config)
-
+    approach_v3= True
     train_data = get_data(
         file_path=train_data_path,
-        tokenizer=tokenizer
+        tokenizer=tokenizer,
+         approach_v3=approach_v3
     )
     eval_data = get_data(
         file_path=eval_data_path,
-        tokenizer=tokenizer
+        tokenizer=tokenizer,
+         approach_v3=approach_v3,
     )
 
     trainer = get_trainer(
@@ -83,7 +85,7 @@ def main():
     config = {
         ## batch
         ## gradient step
-        "model_name": "unsloth/Qwen2.5-Coder-1.5B-Instruct",
+        "model_name": "unsloth/Qwen2.5-Coder-3B-Instruct",
         "num_train_epochs": tune.choice([1, 2]),
         "per_device_train_batch_size": tune.choice([2, 4, 8, 16]),
         "learning_rate": tune.loguniform(1e-6, 5e-4),

@@ -2,10 +2,10 @@ from unsloth import is_bfloat16_supported
 from .model_config import fast_model_config
 
 training_argument = {
-    "per_device_train_batch_size": 64,
+    "per_device_train_batch_size": 16,
     "gradient_accumulation_steps": 1,
-    "warmup_steps": 5,
-    "num_train_epochs": 2,
+    "warmup_steps": 3,
+    "num_train_epochs": 1,
     "learning_rate": 3e-5,
     "fp16": not is_bfloat16_supported(),
     "bf16": is_bfloat16_supported(),
@@ -20,6 +20,7 @@ training_argument = {
     "eval_strategy": "steps",
     "eval_steps": 10,
     # "max_steps": 100,
+    "max_length" : fast_model_config["max_seq_length"],
 }
 
 sft_argument = {
