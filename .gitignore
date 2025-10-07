@@ -195,8 +195,8 @@ heavy_model_5_8
 sft_model
 out_try01
 result_temp
-workspace
-shared
+# workspace
+# shared
 _unsloth_sentencepiece_temp
 temp_hf_repo
 *.gguf

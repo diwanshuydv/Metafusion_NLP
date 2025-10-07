@@ -3,7 +3,7 @@ import os
 import shutil
 
 # ---- CONFIG ----
-HF_TOKEN = "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"
+HF_TOKEN = "hf_XxZgeKvIiNtEeAtYgxOUxBRYCsCDaMucaRxxx"
 repo_id = "Diwanshuydv/qwen2.5-3B-heavy"  # Example: "yourusername/my-gguf-model"
 local_model_dir = "/home/raid/Diwanshu/Metafusion_NLP/merged_heavy_model_16_8"  # This should be your whole directory
 commit_message = "Initial commit of GGUF model directory"
