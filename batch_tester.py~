@@ -1,0 +1,202 @@
+from unsloth import FastLanguageModel
+# from unsloth.fast_language_model import FastLanguageModel
+import torch
+import csv
+from tqdm import tqdm # For a helpful progress bar
+from transformers import TextStreamer
+model, tokenizer = FastLanguageModel.from_pretrained(
+model_name = "heavy_model_v1", # YOUR MODEL YOU USED FORTRAINING
+ max_seq_length= 16384,
+    dtype= None,
+    load_in_8bit= True,
+    load_in_4bit = False
+)
+
+FastLanguageModel.for_inference(model) # Enable native 2x faster inference
+
+natural_language_queries = [
+    "Can you find all License Plate Recognition alerts originating from the 'vizag-cam-12' unit?",
+    "Can you find all License Plate Recognition alerts originating from the vizag-cam-12 camera?",
+    "Are there any PPE violations recorded?",
+    "Show me events that captured a male individual.",
+    "Show me any black SUVs detected from 2025-01-01 to 2025-01-31, where the license plate string pattern starts with \"MH04\".",
+    "Any blue colored sedans?",
+    "Show me all CAM_TAMPERING events that occurred recently.",
+    "Was Abdul identified in any surveillance footage?",
+    "Show me Yashs detections, specifically when he had leather boots and was carrying nothing, if he was talking.",
+    "Find all traffic violations from Main_Road_Section between 2025-06-01 and 2025-06-30 for vehicles with license plates starting with DL.",
+    "Find all traffic incidents from March 10th to May 22nd, 2024, where a vehicle with a license plate like MH12...6789 was caught speeding over 70.",
+    "On 21/12/2025, were there any PPE Violation incidents in the Warehouse_CCTV group?",
+    "List PAT alerts for adult men carrying a backpack (either blue or black) and wearing spectacles in the first week of 2025.",
+    "Find any instances where the facial recognition identified Fatima.",
+    "Find events from 'vizag-cam-12' over the past month involving a 'blue' 'Tata Motors' 'SUV' and a 'male' wearing a 'yellow' 'tshirt'.",
+    "Were any adult females in green shirts observed?",
+    "What heavy motor vehicles were found exceeding the speed limit?",
+    "What hmv were found exceeding the speed limit?",
+    "Locate any instances of 'Loitering' activity in the past 24 hours.",
+    "Retrieve events between 2025-01-01 and 2025-01-31 where the number plate matches pattern 'DL.*8337' and the vehicle was violating a speed limit of 60 km/h.",
+    "Find all events where a 'Toyota' vehicle, either white or silver, had a license plate containing '833' and a detection score above 0.8.",
+    "Which vehicles were detected moving faster than 80 kilometers per hour?",
+    "Retrieve all events from cameras starting with SEC- where a Toyota or Honda sedan was detected traveling between 80 and 100 km/h.",
+    "Are there any Queue Management system alerts?",
+    "Are there any PPE compliance warnings from the 'construction_site_gate' camera group?",
+    "Are there any PPE compliance warnings from the construction_site_gate camera group?",
+    "Show me any SUVs that had a number plate finishing with 8337 from March 15th to April 20th, 2025.",
+    "golden off-road car",
+    "Find any thin, older adults involved in a pushing action.",
+    "Retrieve records of anyone sporting black footwear of the 'boots' type.",
+    "During March 2025, were there any 'car' related incidents involving 'red light violations' or 'stop line violations'?",
+    "During 1 March 2025 to 1 April 2025, were there any 'car' related incidents involving 'red light violations' or 'stop line violations'?",
+    "Are there any 'Wrong Way' or 'Red Light Violation' events where a male person was wearing a 'short_sleeve' upper type, from cameras 'vizag-cam-12' or 'sector_42_cam' in the past 7 days?",
+    "Locate individuals wearing specific colored shoes, e.g., red sneakers.",
+    "Find events of 'Helmet Violation' where the 'camera_id' contains 'entry' and the detected vehicle type is a 'motorbike' or 'scooter' (motorbike label) between '2024-11-01' and '2024-11-30'.",
+    "Show me any grown women in lengthy jackets with shoulder bags who were seen speaking.",
+    "Show me all events from TiharBlockA during January 2025 involving a blue sedan whose registration includes DL.",
+    "Show me all events from 'TiharBlockA' during January 2025 involving a blue sedan whose registration includes 'DL'.",
+    "Find anyone with a rucksack.",
+    "Show me alerts indicating physical altercations.",
+    "Have any fire or smoke alerts been triggered in the 'factory_floor_east' area?",
+    "Have any fire or smoke alerts been triggered in the factory_floor_east area?",
+    "List PAT alerts for adult men carrying a backpack (either blue or black) and wearing spectacles in the first week of 2025.",
+    "find alerts in the first week of 2025.",
+    "Find any instances where the facial recognition identified Fatima.",
+    "Find all instances where 'Abdul' was recognized last week.",
+    "Identify any person wearing eyewear.",
+    "Get alerts from camera vizag-cam-12 showing a person wearing a hat and jeans.",
+    "Find any instances of camera sabotage."
+]
+results = []
+schema="""Identifier Fields-->
+  camgroup_id: Group identifier for filtering events by site, location, deployment, or custom name
+  task_id: Map natural language application names to their corresponding short_name values
+  Values: `ANPR, CROWD_EST, CROWD_COUNT, FR, ABANDONED_BAG, INTRUDER_DETECT, CAM_TAMPERING, SLIP_DETECT, PPE_VOILATION, wrong_way, helmet_violation, triple_riding, speed_violation, red_light_violation, violence_detection, dwell, wii, whh, qm, tg, lane_violation, seatbelt, parking_violation, pat, vat, fns`
+    """"mappings"""": [
+                    {""""application_name"""": """"License Plate Recognition"""", """"task_id_value"""": """"ANPR""""},
+                    {""""application_name"""": """"Crowd Estimation"""", """"task_id_value"""": """"CROWD_EST""""},
+                    {""""application_name"""": """"Crowd Count"""", """"task_id_value"""": """"CROWD_COUNT""""},
+                    {""""application_name"""": """"Facial Recognition"""", """"task_id_value"""": """"FR""""},
+                    {""""application_name"""": """"Abandoned Bag Alert"""", """"task_id_value"""": """"ABANDONED_BAG""""},
+                    {""""application_name"""": """"Intruder Alert"""", """"task_id_value"""": """"INTRUDER_DETECT""""},
+                    {""""application_name"""": """"Camera Tampering"""", """"task_id_value"""": """"CAM_TAMPERING""""},
+                    {""""application_name"""": """"Person Slip Detection"""", """"task_id_value"""": """"SLIP_DETECT""""},
+                    {""""application_name"""": """"PPE Violation"""", """"task_id_value"""": """"PPE_VOILATION""""},
+                    {""""application_name"""": """"Wrong Way"""", """"task_id_value"""": """"wrong_way""""},
+                    {""""application_name"""": """"Helmet Violation"""", """"task_id_value"""": """"helmet_violation""""},
+                    {""""application_name"""": """"Triple Riding"""", """"task_id_value"""": """"triple_riding""""},
+                    {""""application_name"""": """"Speed Violation"""", """"task_id_value"""": """"speed_violation""""},
+                    {""""application_name"""": """"Red Light Violation"""", """"task_id_value"""": """"red_light_violation""""},
+                    {""""application_name"""": """"Violence Detection"""", """"task_id_value"""": """"violence_detection""""},
+                    {""""application_name"""": """"Loitering"""", """"task_id_value"""": """"dwell""""},
+                    {""""application_name"""": """"Woman In Isolation"""", """"task_id_value"""": """"wii""""},
+                    {""""application_name"""": """"Woman Hailing Help"""", """"task_id_value"""": """"whh""""},
+                    {""""application_name"""": """"Queue Management"""", """"task_id_value"""": """"qm""""},
+                    {""""application_name"""": """"Tailgating"""", """"task_id_value"""": """"tg""""},
+                    {""""application_name"""": """"Lane violation"""", """"task_id_value"""": """"lane_violation""""},
+                    {""""application_name"""": """"Seat belt"""", """"task_id_value"""": """"seatbelt""""},
+                    {""""application_name"""": """"Parking violation"""", """"task_id_value"""": """"parking_violation""""},
+                    {""""application_name"""": """"Person Attribute"""", """"task_id_value"""": """"pat""""},
+                    {""""application_name"""": """"Vehicle Attribute"""", """"task_id_value"""": """"vat""""},
+                    {""""application_name"""": """"Fire and Smoke Detection"""", """"task_id_value"""": """"fns""""},
+                    {""""application_name"""": """"VIDES"""", """"task_id_value"""": """"parking_violation""""}
+                  ]
+  camera_id: Individual camera identifier
+
+Event Fields-->
+  event_priority: Event priority level (`p1, p2, p3, p4` - p1 highest)
+  event_id: Unique event identifier string
+  c_timestamp: Event timestamp in ISO format (YYYY-MM-DDTHH:MM:SSZ)
+
+Blob Fields-->
+  url: Blob/image URL string
+  blob_priority: Blob priority level (`p1, p2, p3, p4`) -- p1 is highest priority and p4 lowest
+  score: Detection confidence score (0.0 to 1.0)
+  match_id: Person identification by their name for queries like find <person_name>. 
+
+Vehicle Attributes-->
+  special_type: Special vehicle categories (`army_vehicle, ambulance, graminseva_4wheeler, graminseva_3wheeler, campervan`)
+  brand_name: Vehicle brand [""""tvs"""", """"maruti_suzuki"""", """"eicher"""", """"ashok_leyland"""", """"mercedes_benz"""", """"royal_enfield"""", """"chevrolet"""", """"fiat"""", """"jaguar"""", """"audi"""", """"toyota"""", """"sml"""", """"bajaj"""", """"jbm"""", """"bharat_benz"""", """"hero_motor"""", """"volvo"""", """"nissan"""", """"renault"""", """"volkswagen"""", """"mazda"""", """"hero_honda"""", """"hyundai"""", """"mg"""", """"skoda"""", """"land_rover"""", """"yamaha"""", """"kia"""", """"mahindra"""", """"mitsubishi"""", """"ford"""", """"jeep"""", """"tata_motors"""", """"honda"""", """"bmw"""", """"coupe"""", """"force""""]
+  vehicle_color: Vehicle color [""""khakhi"""", """"silver"""", """"yellow"""", """"pink"""", """"purple"""", """"green"""", """"blue"""", """"brown"""", """"maroon"""", """"red"""", """"orange"""", """"violet"""", """"white"""", """"black"""", """"grey""""]
+  vehicle_type: Vehicle body type [""""sedan"""", """"suv"""", """"micro"""", """"hatchback"""", """"wagon"""", """"pick_up"""", """"convertible""""]
+  vehicle_itype: Vehicle classification [""""hmv"""", """"lmv"""", """"lgv"""", """"3_axle"""", """"5_axle"""", """"mcwg"""", """"6_axle"""", """"2_axle"""", """"4_axle"""", """"heavy_vehicle""""]
+  vehicle_speed: Current vehicle speed (number)
+  vehicle_speed_limit: Speed limit for vehicle (number)
+  vehicle_label: Detected vehicle type[""""bus"""", """"car"""", """"truck"""", """"motorbike"""", """"bicycle"""", """"e_rikshaw"""", """"cycle_rikshaw"""", """"tractor"""", """"cement_mixer"""", """"mini_truck"""", """"mini_bus"""", """"mini_van"""", """"van""""]
+  plate_layout: License plate layout (`one_raw, two_raw`)
+  ocr_result: License plate OCR text - use for number plate queries
+  registration_type: Vehicle registration (`commercial, non-commercial`)
+
+Person Attributes-->
+  actions: Person actions (`calling, talking, gathering, holding, pushing, pulling, carry_arm, carry_hand`)
+  age: Age category (`child, adult, older_adult`)
+  body_type: Body build (`fat, normal, thin`)
+  gender: Person gender (`female, male`)
+  hair_color: Hair color [""""black"""", """"blue"""", """"brown"""", """"green"""", """"grey"""", """"orange"""", """"pink"""", """"purple"""", """"red"""", """"white"""", """"yellow""""]
+  hair_type: Hair style (`bald_head, long_hair, short_hair`)
+  upper_type: Upper clothing type [""""stride"""", """"splice"""", """"casual"""", """"formal"""", """"jacket"""", """"logo"""", """"plaid"""", """"thin_stripes"""", """"tshirt"""", """"other"""", """"v_neck"""", """"suit"""", """"thick_stripes"""", """"shirt"""", """"sweater"""", """"vest"""", """"cotton"""", """"suit_up"""", """"tight""""],
+  upper_color: Upper clothing color [""""black"""", """"blue"""", """"brown"""", """"green"""", """"grey"""", """"orange"""", """"pink"""", """"purple"""", """"red"""", """"white"""", """"yellow""""], lower_type: Lower clothing type [""""stripe"""", """"pattern"""", """"long_coat"""", """"trousers"""", """"shorts"""", """"skirt_and_dress"""", """"boots"""", """"long_trousers"""", """"skirt"""", """"short_skirt"""", """"dress"""", """"jeans"""", """"tight_trousers"""", """"capri"""", """"hot_pants"""", """"long_skirt"""", """"plaid"""", """"thin_stripes"""", """"suits"""", """"casual"""", """"formal""""]
+  lower_color: Lower clothing color [""""black"""", """"blue"""", """"brown"""", """"green"""", """"grey"""", """"orange"""", """"pink"""", """"purple"""", """"red"""", """"white"""", """"yellow""""],
+  sleeve_type: Sleeve length (`short_sleeve, long_sleeve`)
+  footwear: Shoe type [""""leather"""", """"sport"""", """"boots"""", """"cloth"""", """"casual"""", """"sandals"""", """"stocking"""", """"leather_shoes"""", """"shoes"""", """"sneaker""""],
+  footwear_color: Shoe color [""""black"""", """"blue"""", """"brown"""", """"green"""", """"grey"""", """"orange"""", """"pink"""", """"purple"""", """"red"""", """"white"""", """"yellow""""],
+  carrying: Items carried [""""hand_bag"""", """"shoulder_bag"""", """"hold_objects_in_front"""", """"backpack"""", """"messenger_bag"""", """"nothing"""", """"plastic_bags"""", """"baby_buggy"""", """"shopping_trolley"""", """"umbrella"""", """"folder"""", """"luggage_case"""", """"suitcase"""", """"box"""", """"plastic_bag"""", """"paper_bag"""", """"hand_trunk"""", """"other""""]
+  carrying_color: Color of carried items [""""black"""", """"blue"""", """"brown"""", """"green"""", """"grey"""", """"orange"""", """"pink"""", """"purple"""", """"red"""", """"white"""", """"yellow""""],
+  accessories: Worn accessories [""""glasses"""", """"muffler"""", """"hat"""", """"nothing"""", """"headphone"""", """"hair_band"""", """"kerchief""""]
+  occupation: Person's job/role (free text)
+  orientation: Facing direction (`front, back, side`)
+
+Crowd & Violation Fields-->
+  crowd_estimate: Integer count from crowd estimation
+  erratic_crowd: Whether crowd behavior is erratic (`yes, no`)
+  crowd_flow_percentage: Crowd flow percentage (0-100)
+  violation: General violation flag (`yes, no`)
+  red_light_violation: Red light violation (`yes, no`)
+  stop_line_violation: Stop line violation (`yes, no`)
+
+Key Usage Notes-->
+  Use task_id values to filter by application type
+  Use ocr_result for license plate number searches with regex
+  Priority levels p1=highest, p4=lowest for both events and blobs
+  Timestamps are in ISO format with 'Z' suffix
+  All color fields use lowercase color names
+  Enum values are case-sensitive and use underscores
+"""
+for query in tqdm(natural_language_queries, desc="Generating MongoDB Queries"):
+    messages = [     # Change below!
+    {"role": "user", "content": f"""schema:
+    {schema}
+
+    Always use ISO 8601 format (`YYYY-MM-DDTHH:MM:SSZ`) for timestamps.
+    For queries involving confidence (e.g., "score greater than 70 percent"), use `score` with operators like `$gt`, `$lt` (e.g., `"$gt": 0.7`).
+
+    natural_language_query: {query}
+    Use the exact timestamp 2025-07-21T15:00:00Z only when the prompt explicitly mentions to use the current date and time like using words today, last week. Never include or infer the date unless strictly necessary.
+    parsed_mongo_query:"""},
+    ]
+
+    input_ids = tokenizer.apply_chat_template(
+    messages,
+    add_generation_prompt = True,
+    return_tensors = "pt",
+    ).to("cuda")
+
+    output = model.generate(input_ids, max_new_tokens = 128, pad_token_id = tokenizer.eos_token_id)
+    input_ids_length = input_ids.shape[1]
+    generated_tokens = output[0][input_ids_length:]
+    generated_query = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+
+    # Store the result
+    results.append({
+        'natural_language_query': query,
+        'generated_mongo_query': generated_query
+    })
+
+output_csv_file = "query_test_results.csv"
+fieldnames = ['natural_language_query', 'generated_mongo_query']
+
+with open(output_csv_file, mode='w', newline='', encoding='utf-8') as csv_file:
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerows(results)
+
+print(f"✅ Successfully processed {len(results)} queries.")
+print(f"Results saved to '{output_csv_file}'")

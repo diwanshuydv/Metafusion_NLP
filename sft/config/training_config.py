@@ -3,14 +3,15 @@ from .model_config import fast_model_config
 
 training_argument = {
     "per_device_train_batch_size": 16,
+   "max_grad_norm":1,
     "gradient_accumulation_steps": 1,
     "warmup_steps": 3,
     "num_train_epochs": 1,
-    "learning_rate": 3e-5,
+    "learning_rate": 1e-5,
     "fp16": not is_bfloat16_supported(),
     "bf16": is_bfloat16_supported(),
     "logging_steps": 1,
-    # "optim": "adamw_8bit",
+    "optim": "adamw_torch",
     "weight_decay": 0.01,
     "lr_scheduler_type": "cosine_with_restarts",
     "seed": 3407,

@@ -1,7 +1,7 @@
 import pandas as pd
 from datasets import Dataset
 from typing import List, Dict, Any
-from config.prompt_config import MODEL_PROMPT, SYSTEM_PROMPT
+from .config.prompt_config import MODEL_PROMPT, SYSTEM_PROMPT
 from unsloth.chat_templates import (
     get_chat_template,
     standardize_sharegpt

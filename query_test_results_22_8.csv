@@ -1,0 +1,270 @@
+natural_language_query,generated_mongo_query
+Can you find all License Plate Recognition alerts originating from the 'vizag-cam-12' unit?,"camera_id:vizag-cam-12, task_id:ANPR"
+Can you find all License Plate Recognition alerts originating from the vizag-cam-12 camera?,"camera_id:vizag-cam-12, task_id:ANPR"
+Are there any PPE violations recorded?,task_id:PPE_VOILATION
+Show me events that captured a male individual.,gender:male
+"Show me any black SUVs detected from 2025-01-01 to 2025-01-31, where the license plate string pattern starts with ""MH04"".","c_timestamp: {""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}, vehicle_color:black, label:SUV, ocr_result: {""$regex"": ""^MH04""}"
+Any blue colored sedans?,"vehicle_color:blue, vehicle_type:sedan"
+Show me all CAM_TAMPERING events that occurred recently.,"task_id:CAM_TAMPERING, c_timestamp:{""$gte"": ISODate(""2024-10-27T00:00:00Z""), ""$lt"": ISODate(""2024-10-28T00:00:00Z"")}"
+Was Abdul identified in any surveillance footage?,match_id:Abdul
+"Show me Yashs detections, specifically when he had leather boots and was carrying nothing, if he was talking.","match_id:Yash, footwear:leather, carrying:nothing, actions:talking"
+Find all traffic violations from Main_Road_Section between 2025-06-01 and 2025-06-30 for vehicles with license plates starting with DL.,"camgroup_id:Main_Road_Section, c_timestamp:{""$gte"": ISODate(""2025-06-01T00:00:00Z""), ""$lt"": ISODate(""2025-07-01T00:00:00Z"")}, ocr_result:{""$regex"": ""^DL""}"
+"Find all traffic incidents from March 10th to May 22nd, 2024, where a vehicle with a license plate like MH12...6789 was caught speeding over 70.","c_timestamp: {""$gte"": ISODate(""2024-03-10T00:00:00Z""), ""$lte"": ISODate(""2024-05-22T23:59:59Z"")}, ocr_result: {""$regex"": ""^MH12.*6789""}, speed: {""$gt"": 70}"
+"On 21/12/2025, were there any PPE Violation incidents in the Warehouse_CCTV group?","camgroup_id:Warehouse_CCTV, task_id:PPE_VOILATION, c_timestamp:{""$gte"": ""2025-12-21T00:00:00Z"", ""$lt"": ""2025-12-22T00:00:00Z""}"
+List PAT alerts for adult men carrying a backpack (either blue or black) and wearing spectacles in the first week of 2025.,"task_id:pat, gender:male, age:adult, carrying:backpack, carrying_color:{'$in': ['blue', 'black']}, accessories:glasses, c_timestamp:{'$gte': ISODate('2025-07-01T00:00:00Z'), '$lt': ISODate('2025-08-01T00:00:00Z')}"
+Find any instances where the facial recognition identified Fatima.,"task_id:FR, match_id:Fatima"
+Find events from 'vizag-cam-12' over the past month involving a 'blue' 'Tata Motors' 'SUV' and a 'male' wearing a 'yellow' 'tshirt'.,"camera_id:vizag-cam-12, c_timestamp:{""$gte"": ISODate(""2023-10-27T00:00:00Z""), ""$lt"": ISODate(""2023-11-27T00:00:00Z"")}, brand_name:tata_motors, vehicle_color:blue, vehicle_type:suv, upper_type:tshirt, upper_color:yellow"
+Were any adult females in green shirts observed?,"gender:female, age:adult, upper_type:{'$in': ['shirt', 'tshirt']}, upper_color:green"
+What heavy motor vehicles were found exceeding the speed limit?,"vehicle_i_type: {$in: [""hmv"", ""lgv"", ""3_axle"", ""5_axle"", ""6_axle"", ""4_axle""]}, speed: {$gt: ""$attribs.speed_limit""}"
+What hmv were found exceeding the speed limit?,"vehicle_i_type:hmv, speed:{'$gt': '$attribs.speed_limit'}"
+Locate any instances of 'Loitering' activity in the past 24 hours.,"task_id:dwell, c_timestamp:{""$gte"": ISODate(""2024-10-27T10:42:00Z""), ""$lt"": ISODate(""2024-10-28T10:42:00Z"")}"
+Retrieve events between 2025-01-01 and 2025-01-31 where the number plate matches pattern 'DL.*8337' and the vehicle was violating a speed limit of 60 km/h.,"c_timestamp: {""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lte"": ISODate(""2025-01-31T23:59:59Z"")}, ocr_result: {""$regex"": ""DL.*8337""}, speed: {""$gt"": 60}"
+"Find all events where a 'Toyota' vehicle, either white or silver, had a license plate containing '833' and a detection score above 0.8.","brand_name:toyota, vehicle_color: {""$in"": [""white"", ""silver""]}, ocr_result: {""$regex"": ""833""}, score: {""$gt"": 0.8}"
+Which vehicles were detected moving faster than 80 kilometers per hour?,speed: { '$gt': 80 }
+Retrieve all events from cameras starting with SEC- where a Toyota or Honda sedan was detected traveling between 80 and 100 km/h.,"camera_id: {'$regex': '^SEC-'}, brand_name: {'$in': ['toyota', 'honda']}, vehicle_type:sedan, speed: {'$gte': 80, '$lte': 100}"
+Are there any Queue Management system alerts?,task_id:qm
+Are there any PPE compliance warnings from the 'construction_site_gate' camera group?,"camgroup_id:construction_site_gate, task_id:PPE_VOILATION"
+Are there any PPE compliance warnings from the construction_site_gate camera group?,"camgroup_id:construction_site_gate, violation:yes, task_id:PPE_VOILATION"
+"Show me any SUVs that had a number plate finishing with 8337 from March 15th to April 20th, 2025.","vehicle_type:suv, ocr_result:{'$regex': '8337$'}, c_timestamp:{'$gte': ISODate(""2025-03-15T00:00:00Z""), '$lt': ISODate(""2025-04-21T00:00:00Z"")}"
+golden off-road car,"vehicle_color:green, label:{'$in': ['car', 'truck', 'mini_car']}, vehicle_type:{'$in': ['sedan', 'suv', 'hard']}, road_type:{'$in': ['off-road', 'on-road']}"
+"Find any thin, older adults involved in a pushing action.","body_type:thin, age:older_adult, actions:pushing"
+Retrieve records of anyone sporting black footwear of the 'boots' type.,"footwear:boots, footwear_color:black"
+"During March 2025, were there any 'car' related incidents involving 'red light violations' or 'stop line violations'?","c_timestamp: {""$gte"": ISODate(""2025-03-01T00:00:00Z""), ""$lt"": ISODate(""2025-04-01T00:00:00Z"")}, label: {""$in"": [""car""]}, red_light_violation: {""$in"": [""yes"", ""no""]}, stop_line_violation: {""$in"": [""yes"", ""no""]}"
+"During 1 March 2025 to 1 April 2025, were there any 'car' related incidents involving 'red light violations' or 'stop line violations'?","c_timestamp: {""$gte"": ISODate(""2025-03-01T00:00:00Z""), ""$lt"": ISODate(""2025-05-01T00:00:00Z"")}, label: {""$in"": [""car""]}, red_light_violation: {""$in"": [""yes""]}, stop_line_violation: {""$in"": [""yes""]}"
+"Are there any 'Wrong Way' or 'Red Light Violation' events where a male person was wearing a 'short_sleeve' upper type, from cameras 'vizag-cam-12' or 'sector_42_cam' in the past 7 days?","task_id: {""$in"": [ ""wrong_way"", ""red_light_violation"" ] }, gender:male, upper_type:short_sleeve, camera_id: {""$in"": [ ""vizag-cam-12"", ""sector_42_cam"" ]}, c_timestamp: { ""$gte"": ISODate(""2023-10-26T00:00:00Z""), ""$lt"": ISODate(""2023-11-26T00:00:00Z"") }"
+"Locate individuals wearing specific colored shoes, e.g., red sneakers.","footwear:sneaker, footwear_color:red"
+Find events of 'Helmet Violation' where the 'camera_id' contains 'entry' and the detected vehicle type is a 'motorbike' or 'scooter' (motorbike label) between '2024-11-01' and '2024-11-30'.,"task_id:helmet_violation, camera_id: {'$regex': 'entry'}, label: {'$in': ['motorbike', 'scooter']}, c_timestamp: { ""$gte"": ISODate(""2024-11-01T00:00:00Z""), ""$lt"": ISODate(""2024-12-01T00:00:00Z"") }"
+Show me any grown women in lengthy jackets with shoulder bags who were seen speaking.,"gender:female, age:adult, upper_type:jacket, upper_length:longer, carrying:shoulder_bag, actions:talking"
+Show me all events from TiharBlockA during January 2025 involving a blue sedan whose registration includes DL.,"camgroup_id:TiharBlockA, c_timestamp:{""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}, vehicle_color:blue, vehicle_type:sedan, ocr_result:{""$regex"": ""DL""}"
+Show me all events from 'TiharBlockA' during January 2025 involving a blue sedan whose registration includes 'DL'.,"camgroup_id:TiharBlockA, c_timestamp:{""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}, vehicle_color:blue, vehicle_type:sedan, ocr_result:{""$regex"": ""DL""}"
+Find anyone with a rucksack.,carrying: { '$eq': 'backpack' }
+Show me alerts indicating physical altercations.,task_id:PPE_VOILATION
+Have any fire or smoke alerts been triggered in the 'factory_floor_east' area?,"camgroup_id:factory_floor_east, task_id:fns"
+Have any fire or smoke alerts been triggered in the factory_floor_east area?,"camgroup_id:factory_floor_east, task_id:fns"
+List PAT alerts for adult men carrying a backpack (either blue or black) and wearing spectacles in the first week of 2025.,"task_id:pat, gender:male, age:adult, carrying:backpack, carrying_color: {""$in"": [""blue"", ""black""]}, accessories:glasses, c_timestamp:{""$gte"": ISODate(""2025-07-15T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}"
+find alerts in the first week of 2025.,"c_timestamp: {""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-08-01T00:00:00Z"")}"
+Find any instances where the facial recognition identified Fatima.,"task_id:FR, match_id:Fatima"
+Find all instances where 'Abdul' was recognized last week.,"match_id: {'$regex': 'Abdul'}, c_timestamp: {""$gte"": ISODate(""2023-10-26T00:00:00Z""), ""$lt"": ISODate(""2023-11-26T00:00:00Z"")}"
+Identify any person wearing eyewear.,accessories:glasses
+Get alerts from camera vizag-cam-12 showing a person wearing a hat and jeans.,"camera_id:vizag-cam-12, accessories:hat, lower_type:jeans"
+Find any instances of camera sabotage.,task_id:CAM_TAMPERING
+Retrieve any 'Woman In Isolation' alerts.,task_id:wii
+Retrieve 'woman hailing help' incidents from the 'office_entry' camera.,"camera_id:office_entry, task_id:whh"
+"Retrieve all 'Person Attribute' events where someone is seen 'talking' or 'calling' and has a 'thin' body type, captured by a camera ID containing 'vizag'.","task_id:pat, actions:{""$in"": [""talking"", ""calling""]}, body_type:thin, camera_id:{""$regex"": ""vizag""}"
+Were there any loitering incidents where the person was carrying an umbrella?,"task_id:dwell, carrying:umbrella"
+Show me FR detections of individuals with items held in front.,"task_id:FR, carrying:hold_objects_in_front"
+Show me all 'PPE Violation' events from 'B3_west' where the detected person has 'short_hair' and is wearing a 'jacket' with 'long_sleeve'.,"camgroup_id:B3_west, task_id:PPE_VOILATION, hair_type:short_hair, upper_type:jacket, sleeve_type:long_sleeve"
+Show all 'Person Attribute' alerts for males with short sleeves and bald heads recorded by camera 'B3_west' on 2025-12-31.,"task_id:pat, c_timestamp: {""$gte"": ISODate(""2025-12-31T00:00:00Z""), ""$lt"": ISODate(""2026-01-01T00:00:00Z"")}, gender:male, sleeve_type:short_sleeve, hair_type:bald_head, camera_id:B3_west"
+Identify all abandoned bag alerts detected by cameras starting with 'vizag-cam' where a female was seen carrying a 'luggage' item just before the alert.,"camera_id: {'$regex': '^vizag-cam'}, task_id:ABandONED_BAG, gender:female, carrying:luggage, c_timestamp: { ""$gte"": ISODate(""2024-10-26T00:00:00Z""), ""$lt"": ISODate(""2024-10-27T00:00:00Z"") }"
+Get alerts showing individuals involved in a 'seatbelt infringement'.,seatbelt: yes
+"Retrieve Crowd Estimation events on the 'entry_cam_1' for March 15, 2025, during business hours, if the crowd flow was under half of the capacity.","camera_id: {'$regex': 'entry_cam_1'}, task_id:CROWD_EST, c_timestamp: {""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lt"": ISODate(""2025-03-16T00:00:00Z"")}, crowd_flow_percentage: {'$lt': 50}"
+"Show me critical priority events from the 'intruder_detect' task, where the detected person is an adult, has a cap, and their shirt is green or white.","task_id:INTRUDER_DETECT, priority:p1, age:adult, accessories:hat, upper_color: {""$in"": [""red"", ""white""]}"
+Retrieve all Person Slip Detection alerts from 15/03/2025 to 17/03/2025 where a child wore sport shoes that were neither black nor white.,"task_id:SLIP_DETECT, c_timestamp:{""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lte"": ISODate(""2025-03-17T23:59:59Z"")}, age:child, footwear:sport, footwear_color:{""$nin"": [""black"", ""white""]}"
+Find any helmet violations recorded.,task_id:helmet_violation
+"Retrieve 'Queue Management' events where a person with a bald head is wearing brown lower clothing, from cameras like 'MainEntryCam' or 'ServiceExitCam'.","task_id:qm, hair_type:bald_head, lower_color:brown, camera_id:{'$in': ['MainEntryCam', 'ServiceExitCam']}"
+Are there any high-priority incidents (P1 or P2) related to fire or smoke detection?,"priority: {""$in"": [""p1"", ""p2""]}, task_id: {""$in"": [""FNS""]}"
+Locate all instances of potential fire or smoke detected in the 'warehouse' camera group during the night shift (10 PM to 6 AM) on 21/12/2025.,"camgroup_id:warehouse, c_timestamp: {""$gte"": ISODate(""2025-12-21T00:00:00Z""), ""$lt"": ISODate(""2025-12-22T00:00:00Z"")}, task_id:fns"
+Retrieve all ANPR events with license plates starting with 'KA01' between 2025-01-01 and 2025-01-31.,"task_id:ANPR, ocr_result: {""$regex"": ""^KA01""}, c_timestamp: {""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}"
+Retrieve every ANPR detection.,task_id:ANPR
+Show me non-commercial vehicles with license numbers like 'GJ06...' reported between 01/01/2025 and 28/02/2025.,"registration_type:non-commercial, ocr_result: {""$regex"": ""^GJ06.*""}, label: {""$in"": [""bus"", ""car"", ""truck"", ""motorbike"", ""van"", ""mini_van"", ""mini_bus"", ""mini_truck"", ""tractor"", ""cement_mixer""]}, c_timestamp: {""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}"
+Retrieve all events where a vehicle appears to be moving in the wrong direction.,wrong_way:yes
+Get all parking violation alerts from the parking_lot_A camera group.,"camgroup_id:parking_lot_A, task_id:parking_violation"
+Retrieve all 'vehicle attribute' (vat) detections for 'Toyota' brand vehicles.,"task_id:vat, brand_name:toyota"
+Any incidents of cars moving against designated lanes?,"label:car, lane_violation:yes"
+Find vehicles with license plate 'DL5C'.,ocr_result: {'$regex': 'DL5C'}
+fns' events with smoke detected on a “red” vehicle.,"task_id:fns, vehicle_color:red"
+All 'fns' events with high priority (p1).,"task_id:fns, priority:p1"
+Are there any camera tampering alerts from 'office_entry'?,"camera_id:office_entry, task_id:CAM_TAMPERING"
+"Show me any alerts for too many riders or seatbelt issues during the period March 15 to April 15, 2025.","c_timestamp: {""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lte"": ISODate(""2025-04-15T23:59:59Z"")}, label: {""$in"": [""motorbike"", ""bicycle"", ""cycle_rikshaw""]}, seatbelt: {""$in"": [""yes""]}"
+Find all person slip detections for Abdul or Fatima from camera IDs containing 'office' during November 2025.,"task_id:SLIP_DETECT, match_id: {""$in"": [""Abdul"", ""Fatima""]}, camera_id: {""$regex"": ""office""}, c_timestamp: { ""$gte"": ISODate(""2025-11-01T00:00:00Z""), ""$lt"": ISODate(""2026-01-01T00:00:00Z"") }"
+I need all instances of loitering involving adults wearing black pants and a white shirt between '2025-01-01' and '2025-01-31'.,"task_id:dwell, c_timestamp:{""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}, age:adult, lower_color:black, upper_color:white"
+Retrieve all intruder alerts for individuals detected from the side orientation carrying a shoulder bag from camera IDs starting with 'main_gate' on '15th March 2025'.,"task_id:INTRUDER_DETECT, orientation:side, carrying:{'$regex': '^shoulder_bag'}, camera_id:{'$regex': '^main_gate'}, c_timestamp:{""$gte"": ISODate(""2025-03-15T00:00:00Z"")}"
+List 'violence_detection' alerts from 'vizag-cam-12' with adult males wearing formal shoes within the first two weeks of June 2025.,"camera_id:vizag-cam-12, task_id:violence_detection, c_timestamp:{""$gte"": ISODate(""2025-06-01T00:00:00Z""), ""$lt"": ISODate(""2025-06-15T00:00:00Z"")}, gender:male, age:adult, footwear:formal, c_timestamp:{""$gte"": ISODate(""2025-06-01T00:00:00Z"")}"
+Show me events where crowd management detected individuals facing away from the queue.,"task_id:qm, orientation:side"
+Find Fatima's person attribute detections.,"match_id:Fatima, task_id:pat"
+Find all priority 1 alerts related to PPE violations.,"priority:p1, task_id:PPE_VOILATION"
+Show me all critical and important crowd estimation events.,"task_id:CROWD_EST, priority:p1"
+"Find all 'Crowd Count' events from 2025-06-20 to 2025-06-21 where an adult is wearing 'sneaker' footwear and has 'long_hair', from cameras like 'Cam_001', 'Cam_002', 'Cam_003'.","task_id:CROWD_COUNT, c_timestamp: {""$gte"": ISODate(""2025-06-20T00:00:00Z""), ""$lte"": ISODate(""2025-06-21T23:59:59Z"")}, age:adult, footwear:sneaker, hair_type:long_hair, camera_id: {""$in"": [""Cam_001"", ""Cam_002"", ""Cam_003""]}"
+Were there any reports of abandoned items?,task_id:ABANDONED_BAG
+Are there any helmet violation detections?,task_id:helmet_violation
+"Get events between '15th March 2025' and '21/03/2025' for a 'male' 'child' person, specifically for 'triple_riding' violations observed from camera group 'B3_west'.","camgroup_id:B3_west, c_timestamp:{""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lt"": ISODate(""2025-03-22T00:00:00Z"")}, gender:male, age:child, task_id:triple_riding"
+Find all events from camera 'TiharBlockA' related to License Plate Recognition.,"camera_id:TiharBlockA, task_id:ANPR"
+Are there any camera tampering alerts?,task_id:CAM_TAMPERING
+Find alerts related to vehicles driving in the wrong direction.,wrong_way:yes
+Were there any 'helmet violations' where the person's 'jacket' was 'red'?,"task_id:helmet_violation, upper_type:jacket, upper_color:red"
+"Get all 'speed violation' events where the license plate 'ocr_result' starts with 'MH' and the detected speed was above '100' km/h, occurring between '2025-07-01' and '2025-07-31'.","task_id:speed_violation, c_timestamp: {""$gte"": ISODate(""2025-07-01T00:00:00Z""), ""$lte"": ISODate(""2025-07-31T23:59:59Z"")}, ocr_result: {""$regex"": ""^MH""}, speed: {""$gt"": 100}"
+Get me all red light violations from camera vizag-cam-12.,"camera_id:vizag-cam-12, red_light_violation:yes"
+Any incidents of cars moving against designated lanes?,"label:car, lane_violation:yes"
+"Show me any alerts for too many riders or seatbelt issues during the period March 15 to April 15, 2025.","c_timestamp: {""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lte"": ISODate(""2025-04-15T23:59:59Z"")}, label: {""$in"": [""truck"", ""mini_truck"", ""mini_bus"", ""bicycle"", ""cycle_rikshaw""]}, vehicle_type: {""$in"": [""sedan"", ""suv"", ""car"", ""motorbike"", ""bicycle"", ""e_rikshaw""]}, violation: yes"
+List parking violation alerts for motorcycles or bikes with low speed (under 10) in ParkingLotA.,"task_id:parking_violation, label:{'$in': ['motorbike', 'bicycle']}, speed:{'$lt': 10}, parking_lot_a:{'$eq': 'Yes'}"
+Find triple riding with red vehicle and commercial registration.,"task_id:triple_riding, vehicle_color:red, registration_type:commercial"
+Find red light violations involving commercial vehicles.,"red_light_violation:yes, registration_type:commercial"
+Find tailgating events involving vehicles of type suv or wagon.,"task_id:tg, label:{""$in"": [""car"", ""truck"", ""mini_truck"", ""mini_bus"", ""van"", ""mini_van"", ""cycle_rikshaw""]}"
+Show all alerts for 'Woman In Isolation' incidents.,task_id:wii
+Get 'woman hailing help' incidents captured by the 'office_entry' camera.,"camera_id:office_entry, task_id:whh"
+"Find 'Person Attribute' events where someone is talking or calling and has a thin body type, captured by cameras with IDs containing 'vizag'.","task_id:pat, actions:{'$in': ['talking', 'calling']}, body_type:thin, camera_id:{'$regex': 'vizag'}"
+Were there any loitering cases involving a person carrying an umbrella?,"task_id:dwell, carrying:umbrella"
+Show facial recognition events with individuals holding objects in front.,"task_id:FR, orientation:front"
+List facial recognition alerts for people holding items in front of them.,"task_id:FR, carrying:hold_objects_in_front"
+"Find 'PPE Violation' events from 'B3_west' where the person has short hair, wears a long-sleeved jacket.","camgroup_id:B3_west, task_id:PPE_VOILATION, hair_type:short_hair, upper_type:jacket, sleeve_type:long_sleeve"
+List 'Person Attribute' alerts for bald males with short sleeves recorded by 'B3_west' on 2025-12-31.,"task_id:pat, c_timestamp:{""$gte"": ""2025-12-31T00:00:00Z"", ""$lt"": ""2026-01-01T00:00:00Z""}, gender:male, hair_type:bald_head, sleeve_type:short_sleeve, camgroup_id:B3_west"
+Identify abandoned bag alerts from 'vizag-cam*' cameras where a female was carrying luggage beforehand.,"camera_id: {'$regex': '^vizag-cam'}, task_id:ABandONED_BAG, gender:female, carrying:luggage_case"
+Show all alerts for seatbelt violations.,"label:truck, seatbelt:yes"
+Retrieve crowd estimation data from 'entry_cam_1' on 2025-03-15 during business hours when crowd flow was below 50%.,"camera_id:entry_cam_1, task_id:CROWD_EST, c_timestamp:{""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lt"": ISODate(""2025-03-16T00:00:00Z"")}, crowd_flow_percentage:{""$lt"": 50}"
+Get critical alerts from 'intruder_detect' involving adults wearing a cap and a green or white shirt.,"task_id:INTRUDER_DETECT, priority:p1, age:adult, accessories:glasses, upper_type:shirt, upper_color:{""$in"": [""critical"", ""priority""]}, upper_color:{""$in"": [""red"", ""white""]}"
+Show person slip detection events from 2025-03-15 to 2025-03-17 where a child wore sport shoes not black or white.,"task_id:SLIP_DETECT, c_timestamp:{""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lte"": ISODate(""2025-03-17T23:59:59Z"")}, age:child, footwear:sport, footwear_color:{""$nin"": [""black"", ""white""]}"
+List all recorded helmet violations.,task_id:helmet_violation
+Retrieve 'Queue Management' events showing bald individuals wearing brown pants from 'MainEntryCam' or 'ServiceExitCam'.,"task_id:qm, camgroup_id: {""$in"": [""MainEntryCam"", ""ServiceExitCam""]}"
+List high-priority (P1 or P2) fire or smoke detection incidents.,"priority: {""$in"": [""p1"", ""p2""]}, task_id: {""$in"": [""fns""]}"
+Find potential fire or smoke alerts in the 'warehouse' camera group during the night shift on 2025-12-21.,"camgroup_id:warehouse, task_id:fns, c_timestamp:{""$gte"": ISODate(""2025-12-21T00:00:00Z""), ""$lt"": ISODate(""2025-12-22T00:00:00Z"")}"
+Get ANPR detections with license plates starting with 'KA01' between 2025-01-01 and 2025-01-31.,"task_id:ANPR, ocr_result: {""$regex"": ""^KA01""}, c_timestamp:{""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}"
+Show all ANPR detections.,task_id:ANPR
+Find non-commercial vehicle detections with license numbers like 'GJ06...' from 2025-01-01 to 2025-02-28.,"registration_type:non-commercial, ocr_result: {'$regex': '^GJ06'}, label: {'$in': ['bus', 'car', 'truck', 'motorbike', 'van', 'mini_van', 'mini_bus', 'mini_truck']}, c_timestamp: {""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-29T00:00:00Z"")}"
+List alerts for vehicles moving in the wrong direction.,wrong_way:yes
+Show parking violation events from the 'parking_lot_A' camera group.,"camgroup_id:parking_lot_A, task_id:parking_violation"
+Get all vehicle attribute detections for 'Toyota' vehicles.,"task_id:vat, brand_name:toyota"
+List any cases of cars moving against the designated lane.,"label:car, lane_violation:yes"
+Find vehicles detected with the license plate 'DL5C'.,ocr_result: {'$regex': 'DL5C'}
+Show 'fns' alerts where smoke was detected on a red vehicle.,"task_id:fns, vehicle_color:red"
+List all high-priority (P1) 'fns' events.,"task_id:fns, priority:p1"
+Get camera tampering alerts from the 'office_entry' camera.,"camera_id:office_entry, task_id:CAM_TAMPERING"
+Find alerts related to triple riding or seatbelt violations between 2025-03-15 and 2025-04-15.,"c_timestamp: {""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lte"": ISODate(""2025-04-15T23:59:59Z"")}, violation: yes, task_id: {""$in"": [""triple_riding"", ""seatbelt""]}"
+Show slip detection events involving Abdul or Fatima from 'office*' cameras during November 2025.,"camgroup_id: {'$regex': 'office*'}, task_id:SLIP_DETECT, c_timestamp: { '$gte': ISODate(""2025-11-01T00:00:00Z""), '$lt': ISODate(""2025-12-01T00:00:00Z"") }, match_id: {'$in': ['Abdul', 'Fatima']}"
+Find loitering incidents involving adults in black pants and white shirts between 2025-01-01 and 2025-01-31.,"task_id:dwell, c_timestamp:{""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}, age:adult, lower_type:pants, lower_color:black, upper_type:shirt, upper_color:white"
+Get intruder alerts for people carrying shoulder bags detected from the side by 'main_gate*' cameras on 2025-03-15.,"task_id:INTRUDER_DETECT, c_timestamp: {""$gte"": ""2025-03-15T00:00:00Z"", ""$lt"": ""2025-03-16T00:00:00Z""}, camgroup_id: {""$regex"": ""^main_gate*""}, carrying:shoulder_bag, orientation:side"
+List 'violence_detection' alerts from 'vizag-cam-12' for adult males wearing formal shoes during the first half of June 2025.,"camera_id:vizag-cam-12, task_id:violence_detection, c_timestamp:{""$gte"": ISODate(""2025-06-01T00:00:00Z""), ""$lt"": ISODate(""2025-06-16T00:00:00Z"")}, gender:male, age:adult, footwear:formal"
+Show crowd management events where individuals were facing away from the queue.,"task_id:qm, orientation:back"
+Retrieve person attribute detections for Fatima.,"task_id:pat, match_id:Fatima"
+List all priority 1 PPE violation alerts.,"task_id:PPE_VOILATION, priority:p1"
+Find all high and critical priority crowd estimation events.,"task_id:CROWD_EST, priority: {""$in"": [""p1"", ""p2""]}"
+"Show 'Crowd Count' alerts from 2025-06-20 to 2025-06-21 for adults wearing sneakers and having long hair, from 'Cam_001', 'Cam_002', or 'Cam_003'.","task_id:CROWD_COUNT, c_timestamp:{""$gte"": ISODate(""2025-06-20T00:00:00Z""), ""$lt"": ISODate(""2025-06-22T00:00:00Z"")}, age:adult, footwear:sneaker, hair_type:long_hair, camera_id:{""$in"": [""Cam_001"", ""Cam_002"", ""Cam_003""]}"
+List all reports involving abandoned items.,task_id:ABANDONED_BAG
+Find all helmet violation alerts.,task_id:helmet_violation
+Get events from 2025-03-15 to 2025-03-21 involving male children violating triple riding rules from 'B3_west'.,"c_timestamp: {""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lte"": ISODate(""2025-03-21T23:59:59Z"")}, gender:male, age:child, violation:yes, camgroup_id:B3_west, task_id:triple_riding"
+Show all License Plate Recognition events from camera 'TiharBlockA'.,"camera_id:TiharBlockA, task_id:ANPR"
+Check for any camera tampering alerts.,task_id:CAM_TAMPERING
+Find alerts for vehicles driving in the wrong direction.,wrong_way: yes
+Were there any helmet violations where the person's jacket was red?,"task_id:helmet_violation, upper_type:jacket, upper_color:red"
+Get speed violation events where license plate starts with 'MH' and speed exceeded 100 km/h between 2025-07-01 and 2025-07-31.,"task_id:speed_violation, c_timestamp: {""$gte"": ISODate(""2025-07-01T00:00:00Z""), ""$lte"": ISODate(""2025-07-31T23:59:59Z"")}, ocr_result: {""$regex"": ""^MH""}, speed: {""$gt"": 100}"
+Retrieve all red light violations from 'vizag-cam-12'.,"camera_id:vizag-cam-12, red_light_violation:yes"
+Find any incidents of wrong-way driving.,task_id:wrong_way
+Get alerts for too many riders or seatbelt violations from 2025-03-15 to 2025-04-15.,"c_timestamp: {""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lte"": ISODate(""2025-04-15T23:59:59Z"")}, label: {""$in"": [""ridel"", ""seatbelt""]}, violation: yes"
+List parking violations involving motorcycles or bikes moving under 10 km/h in ParkingLotA.,"task_id:parking_violation, label:{'$in': ['motorbike', 'bicycle']}, speed:{'$lt': 10}, camgroup_id:Parkings, speed_limit:{$exists: true}"
+Find triple riding incidents involving red vehicles with commercial registration.,"task_id:triple_riding, vehicle_color:red, registration_type:commercial"
+List red light violations by commercial vehicles.,"red_light_violation:yes, registration_type:commercial"
+Get tailgating events involving SUVs or wagons.,"task_id:tg, label:{""$in"": [""SUV"", ""truck""]}"
+Find all ANPR detections with license numbers starting with 'MH12'.,"task_id:ANPR, ocr_result:{'$regex': '^MH12'}"
+List vehicles with OCR results matching the pattern 'DL8C*' seen near the east gate.,"ocr_result: {'$regex': 'DL8C*', '$options': 'i'}, label: {'$in': ['bus', 'car', 'truck', 'motorbike', 'bicycle', 'e_rikshaw', 'cycle_rikshaw', 'tractor', 'cement_mixer', 'mini_truck', 'mini_bus', 'mini_van', 'van']}, orientation: {'$in': ['front', 'side', 'back']}"
+Retrieve all red light violations for cars with 'UP14' plates from April 2025.,"red_light_violation:yes, label:car, ocr_result:{'$regex': 'UP14'}, c_timestamp:{'$gte': ISODate(""2025-04-01T00:00:00Z""), '$lt': ISODate(""2025-05-01T00:00:00Z"")}"
+Show me over-speeding vehicles with license numbers beginning with 'KA03'.,"speed: {""$gt"": ""attribs.speed_limit""}, ocr_result: {""$regex"": ""^KA03""}"
+Get vehicle alerts for commercial trucks with OCR license results containing 'RJ*'.,"label:truck, registration_type:commercial, ocr_result:{'$regex': 'RJ.*'}"
+Were there any bikes with license plates starting with 'TN09' involved in triple riding?,"label:bicycle, ocr_result:{'$regex': '^TN09'}, violation:yes, task_id:triple_riding"
+Show license plate detections of black SUVs with 'GJ01' OCR codes.,"vehicle_color:black, label:car, vehicle_type:suv, ocr_result:{'$regex': 'GJ01'}"
+Find vehicles with OCR outputs matching 'PB1*' that violated stop signs.,"ocr_result: {'$regex': '^PB.*'}, stop_line_violation: yes"
+Retrieve speed violations with license plates beginning with 'CH*' from the highway_cam group.,"camgroup_id:highway_cam, violation:yes, ocr_result:{'$regex': '^CH'}"
+Find repeated violations by the same license plate 'MH01AB1234'.,"ocr_result: {'$regex': 'MH01AB1234'}, violation: yes, task_id: {""$in"": [""speed_violation"", ""red_light_violation"", ""wrong_way""]}"
+List all fire detection alerts triggered in residential areas after midnight.,"task_id:fns, priority:p1, c_timestamp:{""$gte"": ISODate(""2024-10-27T00:00:00Z""), ""$lt"": ISODate(""2024-10-28T00:00:00Z"")}"
+Were there any smoke detections from the basement cameras in the last 7 days?,"c_timestamp: {""$gte"": ISODate(""2025-08-19T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, camera_id: {""$regex"": ""basement""}"
+Get high-priority (P1) fire or smoke events where the fire was detected near exit routes.,"priority:p1, c_timestamp:{'$gte': ISODate(""2025-08-22T00:00:00Z""), '$lt': ISODate(""2025-08-23T00:00:00Z"")}, fire_event: { '$exists': true }"
+Show all 'fns' alerts where smoke was detected inside elevators.,"task_id:fns, violation:yes, label:{'$in': ['cabin', 'truck', 'van', 'mini_van', 'mini_bus', 'mini_truck']}, c_timestamp:{'$gte': ISODate(""2025-08-22T00:00:00Z""), '$lt': ISODate(""2025-08-23T00:00:00Z"")}"
+Find all smoke detection alerts triggered between 10 PM and 6 AM in the warehouse zone.,"task_id:fns, c_timestamp:{""$gte"": ISODate(""2025-08-22T00:00:00Z""), ""$lt"": ISODate(""2025-08-23T00:00:00Z"")}, camgroup_id:warehouse zone"
+Retrieve incidents where both smoke and heat signatures were recorded.,task_id:fns
+Any fire or smoke alerts raised from cameras located in power supply rooms?,"task_id:fns, priority:p1"
+Give me a list of fire alerts captured by 'block_B_*' camera group in February 2025.,"camgroup_id: {'$regex': 'block_B.*'}, c_timestamp: {""$gte"": ISODate(""2025-02-01T00:00:00Z""), ""$lt"": ISODate(""2025-03-01T00:00:00Z"")}, priority: {'$in': ['p1', 'p2']}"
+Show smoke detection events involving vehicles inside parking lots.,"task_id:fns, label:{'$in': ['truck', 'bus', 'van', 'mini_van', 'mini_bus', 'cycle_rikshaw', 'cement_mixer', 'tractor', 'bicycle', 'e_rikshaw', 'e_rikshaw', 'cycle_rikshaw', 'tractor', 'cement_mixer', 'mini_truck']}"
+Were any red vehicles involved in fire or smoke alerts this year?,"task_id:fns, c_timestamp: {""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}, vehicle_color:red, violation:yes"
+Find 'fns' alerts from 2025 where the temperature at the scene exceeded 80°C.,"task_id:fns, c_timestamp:{""$gte"": ISODate(""2025-01-01T00:00:00Z""), ""$lt"": ISODate(""2025-02-01T00:00:00Z"")}, temperature:{""$gt"": 80}"
+List all cases of fire or smoke detected in kitchens or food zones.,"task_id:fns, priority:{""$in"": [""p1"", ""p2""]}"
+Find all ANPR detections from today where the license number starts with 'MH12'.,"task_id:ANPR, c_timestamp:{""$gte"": ISODate(""2025-08-22T00:00:00Z""), ""$lt"": ISODate(""2025-08-23T00:00:00Z"")}, ocr_result:{""$regex"": ""^MH12""}"
+List vehicles detected yesterday with OCR results matching the pattern 'DL8C*' near the east gate.,"c_timestamp: {""$gte"": ISODate(""2023-10-26T00:00:00Z""), ""$lt"": ISODate(""2023-10-27T00:00:00Z"")}, ocr_result: {""$regex"": ""^DL8C""}"
+Retrieve red light violations in the last month for cars with license plates starting with 'UP14'.,"red_light_violation:yes, label:car, ocr_result:{'$regex': '^UP14'}, c_timestamp:{'$gte': ISODate(""2025-07-22T00:00:00Z""), '$lt': ISODate(""2025-08-22T00:00:00Z"")}"
+Show over-speeding vehicles from last week with license numbers beginning with 'KA03'.,"c_timestamp: {""$gte"": ISODate(""2025-08-15T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, ocr_result: {""$regex"": ""^KA03""}"
+Get vehicle alerts from today for commercial trucks with OCR results containing 'RJ*'.,"c_timestamp: {""$gte"": ISODate(""2025-08-22T00:00:00Z""), ""$lt"": ISODate(""2025-08-23T00:00:00Z"")}, registration_type:commercial, label:truck, ocr_result: {""$regex"": ""^RJ.*""}"
+Were any bikes involved in triple riding yesterday with license plates starting with 'TN09'?,"c_timestamp: {""$gte"": ISODate(""2023-10-26T00:00:00Z""), ""$lt"": ISODate(""2023-10-27T00:00:00Z"")}, label: bike, task_id: tripling_riding, ocr_result: {""$regex"": ""^TN09""}"
+Show today's license plate detections of black SUVs with OCR starting with 'GJ01'.,"c_timestamp: {""$gte"": ISODate(""2025-08-22T00:00:00Z""), ""$lt"": ISODate(""2025-08-23T00:00:00Z"")}, vehicle_color:black, vehicle_type:suv, ocr_result: {""$regex"": ""^GJ01""}"
+Find stop sign violations from last week involving vehicles with OCR outputs matching 'PB1*'.,"c_timestamp: {""$gte"": ISODate(""2025-08-15T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, ocr_result: {""$regex"": ""^PB1.*""}"
+Retrieve speed violations from the highway_cam group over the past 7 days for plates beginning with 'CH*'.,"camgroup_id:highway_cam, task_id:speed_violation, c_timestamp:{""$gte"": ISODate(""2025-08-19T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, ocr_result:{""$regex"": ""^CH""}"
+List all repeated violations in the last 30 days by the license plate 'MH01AB1234'.,"c_timestamp: {""$gte"": ISODate(""2023-10-26T00:00:00Z""), ""$lt"": ISODate(""2023-11-26T00:00:00Z"")}, ocr_result: {""$regex"": ""MH01AB1234""}, violation: yes"
+List all fire detection alerts triggered in residential areas after midnight today.,"task_id:fns, c_timestamp:{""$gte"": ISODate(""2025-08-22T00:00:00Z""), ""$lt"": ISODate(""2025-08-23T00:00:00Z"")}"
+Were there any smoke detections from basement cameras in the last 7 days?,"c_timestamp: {""$gte"": ISODate(""2025-08-15T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, camgroup_id: {""$regex"": ""basement""}, smoke_detected: yes"
+Get today's high-priority (P1) fire or smoke alerts near exit routes.,"priority:p1, c_timestamp:{""$gte"": ISODate(""2025-08-22T00:00:00Z""), ""$lt"": ISODate(""2025-08-23T00:00:00Z"")}, task_id:fns"
+Show all smoke alerts detected inside elevators over the past week.,"c_timestamp: {""$gte"": ISODate(""2025-08-15T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, label: elevator, priority: {""$in"": [""p1"", ""p2""]}"
+Find smoke detection alerts triggered between 10 PM and 6 AM during the past 3 nights in the warehouse zone.,"task_id:fns, c_timestamp:{""$gte"": ISODate(""2025-08-20T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, camgroup_id:warehouse, priority:p1"
+Retrieve fire/smoke incidents from this week where both smoke and heat signatures were recorded.,"c_timestamp: {""$gte"": ISODate(""2025-08-15T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, task_id: {""$in"": [""fns"", ""fire_and_smoke_detection""]}"
+Any fire or smoke alerts raised today from cameras in power supply rooms?,"task_id:fns, c_timestamp:{""$gte"": ISODate(""2025-08-22T00:00:00Z""), ""$lt"": ISODate(""2025-08-23T00:00:00Z"")}, camgroup_id:{""$regex"": ""power supply room""}"
+List all fire alerts captured yesterday by cameras in the 'block_B_*' group.,"camgroup_id: {'$regex': 'block_B_'}, c_timestamp: {""$gte"": ISODate(""2023-10-26T00:00:00Z""), ""$lt"": ISODate(""2023-10-27T00:00:00Z"")}, priority: {'$in': ['p1', 'p2']}"
+Show smoke detections from this month involving vehicles in parking lots.,"c_timestamp: {""$gte"": ISODate(""2025-08-01T00:00:00Z""), ""$lt"": ISODate(""2025-09-01T00:00:00Z"")}, violation: yes, parking_violation: yes"
+Were any red vehicles involved in fire or smoke alerts this week?,"task_id:fns, c_timestamp:{""$gte"": ISODate(""2025-08-15T00:00:00Z""), ""$lt"": ISODate(""2025-08-22T00:00:00Z"")}, vehicle_color:red, task_id:{""$in"": [""fire_and_smoke_detection""]}"
+Find all fire/smoke alerts from this year where temperatures exceeded 80°C.,"task_id:fns, c_timestamp: {""$gte"": ISODate(""2025-08-22T00:00:00Z""), ""$lt"": ISODate(""2025-08-23T00:00:00Z"")}, temperature: {""$gt"": 80}"
+List all fire or smoke incidents reported in kitchens or food zones over the past 30 days.,"c_timestamp: {""$gte"": ISODate(""2023-10-26T00:00:00Z""), ""$lt"": ISODate(""2023-11-26T00:00:00Z"")}, camgroup_id: {""$in"": [""kitchen"", ""food zone""]}"
+lower type jeans,lower_type:jeans
+find lower type jeans,lower_type:jeans
+sleeve type short sleeves,"lower_type:sweater, sleeve_type:short_sleeve"
+find sleeve type short sleeves,"upper_type:sleeve, sleeve_type:short_sleeve"
+long hairs,hair_type:long_hair
+find long hairs,hair_type:long_hair
+leather_shoes,"footwear:leather, footwear_color:black"
+find leather_shoes,"footwear:leather, footwear_color:black"
+leather_shoes in footwear,footwear:leather_shoes
+find leather_shoes in footwear,footwear:leather_shoes
+casual footwear,footwear:casual
+find casual footwear,footwear:casual
+find male with long hairs,"gender:male, hair_type:long_hair"
+male with short hairs,"gender:male, hair_type:short_hair"
+find male with short hairs,"gender:male, hair_type:short_hair"
+customer wearing long trouser,lower_type:long_trousers
+find customer wearing long trouser,lower_type:long_trousers
+male with normal body type,"gender:male, body_type:normal"
+find male with normal body type,"gender:male, body_type:normal"
+sport in footwear,footwear:sport
+find sport in footwear,footwear:sport
+find male wearing shirt,"gender:male, upper_type:{'$in': ['shirt', 'tshirt']}, upper_color:red"
+find women wearing jeans,"gender:female, lower_type:jeans"
+find male wearing long trousers,"gender:male, lower_type:long_trousers"
+male wearing long trousers,"gender:male, lower_type:long_trousers"
+find wearing glasses,accessories:glasses
+find glasses,accessories:glasses
+glasses,accessories:glasses
+find male who are adult,"gender:male, age:adult"
+find car MH20GE3537,ocr_result: {'$regex': 'MH20GE3537'}
+find erratic crowd on 11 feb,"erratic_crowd:yes, c_timestamp:{""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lt"": ISODate(""2025-03-16T00:00:00Z"")}"
+find yashjain,match_id:Yash Jain
+find yash jain,match_id:Yash Jain
+yashjain,match_id:Yash Jain
+find abandoned bags on 15th april,"task_id:ABANDONED_BAG, c_timestamp: {""$gte"": ""2025-03-15T00:00:00Z"", ""$lt"": ""2025-03-16T00:00:00Z""}"
+find person intrusion on 19 march,"task_id:INTRUDER_DETECT, c_timestamp: {""$gte"": ""2025-03-15T00:00:00Z"", ""$lt"": ""2025-03-16T00:00:00Z""}"
+search for camera view obstruction alerts on 27 feb,"task_id:CAM_TAMPERING, c_timestamp:{""$gte"": ""2025-03-15T00:00:00Z"", ""$lt"": ""2025-03-16T00:00:00Z""}"
+search for person collapsed on 17 feb,"c_timestamp: {""$gte"": ""2025-03-15T00:00:00Z"", ""$lt"": ""2025-03-16T00:00:00Z""}, orientation: {""$in"": [""side"", ""back"", ""side""]}, actions: {""$in"": [""pushing"", ""pulling"", ""carry_arm"", ""carry_hand""]}"
+find person collapse,task_id:dwell
+find person collapse_*,task_id:dwell
+search for alerts in which person falls on ground on 17 feb,"c_timestamp: {""$gte"": ""2025-03-15T00:00:00Z"", ""$lt"": ""2025-03-16T00:00:00Z""}, violation: yes"
+find cars driving in wrong way on 12 Nov 2024,"c_timestamp: {""$gte"": ISODate(""2024-11-12T00:00:00Z""), ""$lt"": ISODate(""2024-11-13T00:00:00Z"")}, label:car, wrong_way:yes"
+find cars driving wrong way,"label:car, wrong_way:yes"
+find cars in wrong way,"label:car, wrong_way:yes"
+find wrong way alerts,task_id:wrong_way
+find car violating speed limit,"label:car, speed:{'$gt': '$attribs.speed_limit'}"
+find cars of white color,"label:car, vehicle_color:white"
+find white cars,"vehicle_color:white, label:car"
+find white car,"vehicle_color:white, label:car"
+find red car,"vehicle_color:red, label:car"
+person wearing glasses,accessories:glasses
+find female wearing glasses,"gender:female, accessories:glasses"
+find white cars,"label:car, vehicle_color:white"
+find orange sedan,"vehicle_color:orange, vehicle_type:sedan"
+find orange hatchback,"vehicle_color:orange, vehicle_type:hatchback"
+find GJ13AB7065,"ocr_result: {""$regex"": ""GJ13AB7065""}"
+find GJ13AB7065 on 25 April at 12:01 pm,"ocr_result: {""$regex"": ""GJ13AB7065""}, c_timestamp: {""$gte"": ISODate(""2025-03-15T12:00:00Z""), ""$lt"": ISODate(""2025-03-15T12:01:00Z"")}"
+find GJ13AB7065 on 25 April,"ocr_result: {'$regex': 'GJ13AB7065'}, c_timestamp: {""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lt"": ISODate(""2025-03-16T00:00:00Z"")}"
+find woman hailing,task_id:whh
+find woman hailing help,task_id:whh
+find Alerts woman hailing help,task_id:whh
+find alerts woman hailing help in SOurce group stresstesting_qa,"camgroup_id:Source, task_id:whh"
+find alerts woman in isolation,task_id:wii
+find crowd estimate,erratic_crowd: yes
+find crowd count alerts label out,task_id:CROWD_COUNT
+find crowd count alerts,task_id:CROWD_COUNT
+find crowd count alerts on 27 feb,"task_id:CROWD_COUNT, c_timestamp:{""$gte"": ""2025-03-15T00:00:00Z"", ""$lt"": ""2025-03-16T00:00:00Z""}"
+find intruder alerts on 19 feb,"task_id:INTRUDER_DETECT, c_timestamp: {""$gte"": ""2025-03-15T00:00:00Z"", ""$lt"": ""2025-03-16T00:00:00Z""}"
+find yash_jain,match_id:Yash Jain
+find yashjain on 18 Mar 2025,"match_id:Yash Jain, c_timestamp: {""$gte"": ISODate(""2025-03-15T00:00:00Z""), ""$lt"": ISODate(""2025-03-16T00:00:00Z"")}"
+Find tailgating alerts source name Test1,"camgroup_id:Test1, task_id:tg"

@@ -6,6 +6,13 @@ __pycache__/
 # C extensions
 *.so
 
+
+# Models & Checkpoints
+heavy_model_*/
+merged_heavy_model_*/
+ready_model_ft_q/
+gguf2hf/
+
 # Distribution / packaging
 .Python
 build/
@@ -127,7 +134,9 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+
 # Environments
+.no_venv
 .env
 .venv
 env/
@@ -176,9 +185,18 @@ llama.cpp
 Diwanshuydv
 Qwen2-0.5B-DPO_ v0.0
 *.out
+merged_heavy_model_1_8
+merged_heavy_model_5_8
+merged_model
+chroma_db
 outputs_try01
+heavy_model_1_8
+heavy_model_5_8
+sft_model
 out_try01
 result_temp
+workspace
+shared
 _unsloth_sentencepiece_temp
 temp_hf_repo
 *.gguf

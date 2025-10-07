@@ -1,8 +1,8 @@
 from unsloth import is_bfloat16_supported
-from config.model_config import fast_model_config
+from .model_config import fast_model_config
 
 training_argument = {
-    "per_device_train_batch_size": 64,
+    "per_device_train_batch_size": 16,
     "gradient_accumulation_steps": 2,
     "warmup_steps": 5,
     "num_train_epochs": 1,
@@ -14,12 +14,13 @@ training_argument = {
     "weight_decay": 0.01,
     "lr_scheduler_type": "linear",
     "seed": 3407,
-    "output_dir": "/data/meta/WARPxMetafusion/outputs",
+    "output_dir": "./outputs",
     "report_to": "none",
     # "report_to": "tensorboard",
     "eval_strategy": "steps",
     "eval_steps": 50,
     # "max_steps": 100,
+    "max_length" : fast_model_config["max_seq_length"],
 }
 
 sft_argument = {

@@ -66,9 +66,9 @@ def main():
     trainer.train()
 
     print("Training completed...")
-    model.save_pretrained("heavy_model_16_8")
-    tokenizer.save_pretrained("heavy_model_16_8")
-    model.save_pretrained_merged("merged_heavy_model_16_8", tokenizer, save_method = "merged_16bit",)
+    model.save_pretrained("heavy_model_26_8_0.5")
+    tokenizer.save_pretrained("heavy_model_26_8_0.5")
+    model.save_pretrained_merged("merged_heavy_model_26_8_0.5", tokenizer, save_method = "merged_16bit",)
     model.save_pretrained_gguf(
         "heavy_model_16_8", 
         tokenizer, 
